@@ -16,13 +16,7 @@ import { UpdootSection } from "../components/UpdootSection";
 import { EditDeletePostButtons } from "../components/EditDeletePostButtons";
 
 const Index = () => {
-    // console.log("################ index");
     const [variables, setVariables] = useState({ limit: 15, cursor: null as null | string });
-
-    // const [{ }] = useMeQuery({
-    //     pause: isServer(),
-    // });
-    // console.log("me query first");
 
     const [{ data, error, fetching }] = usePostsQuery({
         variables,

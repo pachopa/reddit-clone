@@ -13,61 +13,37 @@ import cors from 'cors';
 import { createConnection } from 'typeorm';
 import { Post } from "./entities/Post";
 import { User } from "./entities/User";
+import { Updoot } from "./entities/Updoot";
 import dotenv from 'dotenv';
 import path from 'path';
-import { Updoot } from "./entities/Updoot";
 import { createUserLoader } from "./utils/createUserLoader";
 import { createUpdootLoader } from "./utils/createUpdootLoader";
 
-dotenv.config({ path: 'C:/Users/daechul/Desktop/Nuun_Personal Folder/reddit/lireddit-server/.env.local' });
-// C:/Users/daechul/Desktop/Nuun_Personal Folder/reddit/lireddit-server/.env.local
-// import { sendEmail } from "./utils/sendEmail";
-// import { User } from "./entities/User";
-// import { MyContext } from "./types";
+dotenv.config({ path: path.join(__dirname, '../.env.local') });
 
-// import { env } from '../tsconfig.json';
+// console.log(path.join(__dirname, '../.env.local'), `path.join(__dirname, './migrations/*')`);
+// console.log(process.env, `path.join(__dirname, './migrations/*')`);
 
-// declare var process: {
-//     env: {
-//         REDIS_PASSWORD: string;
-//     };
-// };
-
-
-// new test222
 const main = async () => {
-    const conn =
-        await createConnection({
-            type: 'postgres',
-            database: 'lireddit2',
-            username: 'postgres',
-            password: 'postgres',
-            logging: true,
-            // synchronize: true,
-            migrations: [path.join(__dirname, './migrations/*')],
-            entities: [User, Post, Updoot]
-        });
-    await conn.runMigrations();
-
-    // await Post.delete({});
-
-    // sendEmail('bob@bob.com', "hello there");
-    // await orm.em.nativeDelete(User, {});
-    // await orm.getMigrator().up();
+    // const conn =
+    await createConnection({
+        type: 'postgres',
+        database: 'lireddit2',
+        username: 'postgres',
+        password: 'postgres',
+        logging: true,
+        synchronize: true,
+        migrations: [path.join(__dirname, './migrations/*')],
+        entities: [User, Post, Updoot]
+    });
+    // await conn.runMigrations();
 
     const app = express();
-
-    // const nodeEnv: string = (process.env["REDIS_PASSWORD"] as string);
-    // console.log(nodeEnv);
-
-    // console.log("process.env", nodeEnv);
 
     const RedisStore = connectRedis(session);
     const redis = new Redis({
         password: `${process.env.REDIS_PASSWORD}`
     });
-
-    // redis.auth(`${process.env.REDIS_PASSWORD}`);
 
     app.use(cors({
         origin: 'http://localhost:3000',
@@ -99,6 +75,7 @@ const main = async () => {
             validate: false
         }),
         context: ({ req, res }) => ({ req, res, redis, userLoader: createUserLoader(), updootLoader: createUpdootLoader() })
+
     });
 
     apolloServer.applyMiddleware({ app, cors: false });

@@ -8,7 +8,12 @@ import { createUserLoader } from './utils/createUserLoader';
 export type MyContext = {
     req: Request & { session: Session & { userId: number; }; };
     redis: Redis;
-    res: Response;
+    res: MyResponse;
     userLoader: ReturnType<typeof createUserLoader>;
     updootLoader: ReturnType<typeof createUpdootLoader>;
+};
+
+// Define a custom type that extends the original Response type
+type MyResponse = Response & {
+    clearCookie: (name: string) => MyResponse; // Define the clearCookie method
 };

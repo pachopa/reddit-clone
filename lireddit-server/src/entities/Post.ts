@@ -10,8 +10,6 @@ export class Post extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-
-
     @Field()
     @Column()
     title!: string;

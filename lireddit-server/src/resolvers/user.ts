@@ -4,6 +4,7 @@ import { MyContext } from "src/types";
 import { Arg, Ctx, Field, FieldResolver, Mutation, ObjectType, Query, Resolver, Root } from "type-graphql";
 import argon2 from 'argon2';
 // import { EntityManager } from '@mikro-orm/postgresql';
+// import { FORGET_PASSWORD_PREFIX } from "../constants";
 import { COOKIE_NAME, FORGET_PASSWORD_PREFIX } from "../constants";
 import { UsernamePasswordInput } from "./UsernamePasswordInput";
 // import { validateRegister } from "src/utils/validateRegister";
@@ -227,9 +228,11 @@ export class UserResolver {
     @Mutation(() => Boolean)
     logout(
         @Ctx() { req, res }: MyContext
+        // @Ctx() { req, }: MyContext
     ) {
         return new Promise((resolve) => req.session.destroy((err) => {
             res.clearCookie(COOKIE_NAME);
+
             if (err) {
                 console.log(err);
                 resolve(false);
