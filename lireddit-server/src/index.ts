@@ -1,7 +1,5 @@
 import "reflect-metadata";
-import { MikroORM } from '@mikro-orm/core';
 import { COOKIE_NAME, __prod__ } from './constants';
-import microConfig from './mikro-orm.config';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
@@ -12,22 +10,63 @@ import Redis from 'ioredis';
 import session from 'express-session';
 import connectRedis from 'connect-redis';
 import cors from 'cors';
+import { createConnection } from 'typeorm';
+import { Post } from "./entities/Post";
+import { User } from "./entities/User";
+import dotenv from 'dotenv';
+import path from 'path';
+import { Updoot } from "./entities/Updoot";
+import { createUserLoader } from "./utils/createUserLoader";
+import { createUpdootLoader } from "./utils/createUpdootLoader";
+
+dotenv.config({ path: 'C:/Users/daechul/Desktop/Nuun_Personal Folder/reddit/lireddit-server/.env.local' });
+// C:/Users/daechul/Desktop/Nuun_Personal Folder/reddit/lireddit-server/.env.local
 // import { sendEmail } from "./utils/sendEmail";
 // import { User } from "./entities/User";
 // import { MyContext } from "./types";
 
+// import { env } from '../tsconfig.json';
+
+// declare var process: {
+//     env: {
+//         REDIS_PASSWORD: string;
+//     };
+// };
+
+
+// new test222
 const main = async () => {
+    const conn =
+        await createConnection({
+            type: 'postgres',
+            database: 'lireddit2',
+            username: 'postgres',
+            password: 'postgres',
+            logging: true,
+            // synchronize: true,
+            migrations: [path.join(__dirname, './migrations/*')],
+            entities: [User, Post, Updoot]
+        });
+    await conn.runMigrations();
+
+    // await Post.delete({});
+
     // sendEmail('bob@bob.com', "hello there");
-    const orm = await MikroORM.init(microConfig);
     // await orm.em.nativeDelete(User, {});
     // await orm.getMigrator().up();
 
     const app = express();
 
+    // const nodeEnv: string = (process.env["REDIS_PASSWORD"] as string);
+    // console.log(nodeEnv);
+
+    // console.log("process.env", nodeEnv);
+
     const RedisStore = connectRedis(session);
     const redis = new Redis({
         password: `${process.env.REDIS_PASSWORD}`
     });
+
     // redis.auth(`${process.env.REDIS_PASSWORD}`);
 
     app.use(cors({
@@ -56,10 +95,10 @@ const main = async () => {
 
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
-            resolvers: [HelloResolver, PostResolver, UserResolver],
+            resolvers: [HelloResolver, UserResolver, PostResolver],
             validate: false
         }),
-        context: ({ req, res }) => ({ em: orm.em, req, res, redis })
+        context: ({ req, res }) => ({ req, res, redis, userLoader: createUserLoader(), updootLoader: createUpdootLoader() })
     });
 
     apolloServer.applyMiddleware({ app, cors: false });
@@ -80,3 +119,4 @@ const main = async () => {
 main().catch(err => {
     console.log("err", err);
 });
+
