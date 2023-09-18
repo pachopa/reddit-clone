@@ -1,4 +1,4 @@
-# reddit-clone
+# Reddit-clone
 
 ![Main Page](https://github.com/pachopa/reddit-clone/blob/master/screenshots/Ladning%20Page.png)
 
