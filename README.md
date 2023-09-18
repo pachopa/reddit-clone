@@ -12,3 +12,10 @@ Full stack reddit clone built with Next.js(React), Typescript, Chakra, GraphQL, 
 - Configure server-side rendering(SSR) and client-side rendering(CSR)
 
 ## Screenshots
+![Create Post](https://github.com/pachopa/reddit-clone/blob/master/screenshots/Create%20Post.png)
+![Update Post](https://github.com/pachopa/reddit-clone/blob/master/screenshots/Update%20Post.png)
+![GraphQL Playground](https://github.com/pachopa/reddit-clone/blob/master/screenshots/GraphQL%20Playground.png)
+![GraphQL Schema](https://github.com/pachopa/reddit-clone/blob/master/screenshots/GraphQL%20Schema.png)
+![GraphQL Queries](https://github.com/pachopa/reddit-clone/blob/master/screenshots/GraphQL%20Queries.png)
+
+

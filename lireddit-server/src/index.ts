@@ -30,7 +30,7 @@ const main = async () => {
         type: 'postgres',
         database: 'lireddit2',
         username: 'postgres',
-        password: 'postgres',
+        password: `${process.env.POSTGRES_PASSWORD}`,
         logging: true,
         synchronize: true,
         migrations: [path.join(__dirname, './migrations/*')],
