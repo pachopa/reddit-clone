@@ -63,7 +63,7 @@ export const NavBar: React.FC<NavBarProps> = ({ }) => {
                         <Heading>LiReddit</Heading>
                     </Link>
                 </NextLink>
-                <Box ml={'auto'} ali>
+                <Box ml={'auto'}>
                     {body}
                 </Box>
             </Flex>

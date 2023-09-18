@@ -24,7 +24,7 @@ const Index = () => {
     });
 
 
-    // console.log("post fetching", fetching, data);
+    console.log("post fetching", fetching, data);
 
     if (!fetching && !data) {
         return <div>you got query failed for some reason error: {error?.message}</div>;

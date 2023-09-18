@@ -36,12 +36,10 @@ export class UserResolver {
     @FieldResolver(() => String)
     email(@Root() user: User, @Ctx() { req }: MyContext) {
         console.log("######################## email resolver #######################");
-        // this is the current user and its okay to show them their own email
         if (req.session.userId === user.id) {
             return user.email;
         }
 
-        // current user wants to see someone elses email
         return "";
     }
 

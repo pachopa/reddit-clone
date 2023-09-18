@@ -41,6 +41,7 @@ export class PostResolver {
     @FieldResolver(() => Int, { nullable: true })
     async voteStatus(@Root() post: Post,
         @Ctx() { updootLoader, req }: MyContext) {
+        console.log("%c######################## voteStatus ####################### FileName: resolvers/post.ts CurrentLine: 44", "background:green;color:#fff");
         if (!req.session.userId) {
             return null;
         }

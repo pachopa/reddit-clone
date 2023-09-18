@@ -84,13 +84,7 @@ const main = async () => {
         console.log('server started on localhost:4000');
     });
 
-    // await orm.isConnected();
-    // const post = orm.em.create(Post, { title: 'my first post' });
-    // await orm.em.persistAndFlush(post);
     console.log("------------sql 2 ---------------");
-    // await orm.em.nativeInsert(Post, { title: 'my first post 2' });
-    // const posts = await orm.em.find(Post, {});
-    // console.log("posts", posts);
 };
 
 main().catch(err => {
